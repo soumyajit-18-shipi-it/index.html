@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNCOMMON | Digital Studio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    
+    body {
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+      height: 300vh;
+    }
+    
+    .hero {
+      position: fixed;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .background-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+      object-fit: cover;
+    }
+    
+    .hero-text {
+      position: absolute;
+    left: 20%;
+      top: 10%;
+      font-size: 48px;
+      text-align: left;
+      line-height: 1.2;
+      opacity: 0;
+      transform: translateX(-50%);
+      font-size: 55px;
+      font-weight: thin;
+      white-space: nowrap;
+      color: #fff;
+      mix-blend-mode: difference;
+      opacity: 0;
+    }
+    
+    .hero-text .line {
+      display: block;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    .uncommon-text {
+      position: absolute;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 150px;
+      font-weight: bold;
+      text-transform: uppercase;
+      white-space: nowrap;
+      color: #fff;
+      mix-blend-mode: difference;
+      opacity: 0;
+    }
+    
+    .home-button, .menu-button, .scroll-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #fff;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      text-transform: lowercase;
+      transition: background 0.3s;
+      z-index: 10;
+  background: transparent;
+  color: white;
+}
+
+.home-button:hover, .menu-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+    
+    
+    
+    .home-button {
+      left: 2%;
+    }
+    
+    .menu-button {
+      right: 2%;
+    }
+    
+    .scroll-button {
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: transparent;
+      color: white;
+      border: none;
+      transition: background 0.3s;
+    }
+    
+    .split-screen {
+      position: fixed;
+      width: 100%;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0;
+    }
+    
+    .split-half {
+      position: absolute;
+      width: 100%;
+      height: 50vh;
+      background: #000;
+      overflow: hidden;
+    }
+    
+    .split-top {
+      top: 0;
+      transform: translateY(0);
+    }
+    
+    .split-bottom {
+      bottom: 0;
+      transform: translateY(0);
+    }
+    
+    .video-clip {
+      position: absolute;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+    
+    .video-clip video {
+      position: absolute;
+      min-width: 100%;
+      min-height: 100vh;
+      width: auto;
+      height: auto;
+      top: 0;
+      left: 0;
+      object-fit: cover;
+    }
+    
+    .split-top .video-clip {
+      clip-path: polygon(0 0, 100% 0, 100% 50vh, 0 50vh); 
+    }
+    
+    .split-bottom .video-clip {
+      clip-path: polygon(0 50vh, 100% 50vh, 100% 100vh, 0 100vh); 
+      top: -50vh; 
+    }
+    
+    .new-page {
+      padding-top: 16rem;
+    padding-bottom: 8rem;
+    width: 100%;
+    text-align: center;
+    max-width: 36rem;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 3.6rem;
+    line-height: 105%;
+    letter-spacing: -.5px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+}
+    
+    
+    .new-page-content {
+      max-width: 800px;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
+    .new-page h2 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    
+    .new-page p {
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+    
+    .view-button {
+      background: #fff;
+      color: #000;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .view-button:hover {
+      background: #ddd;
+    }
+    .slides {
+  width: 100%;
+  overflow: hidden;
+}
+
+.slide {
+  position: relative;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.footer {
+  background: #0f0f0f;
+  color: #fff;
+  padding: 5rem 2rem;
+  font-family: 'Neue Haas Grotesk Display', sans-serif;
+}
+
+.footer-top {
+  border-top: 1px solid #fff;
+  padding-top: 2rem;
+  margin-bottom: 4rem;
+}
+
+.book-call {
+  font-size: 3rem;
+  text-decoration: none;
+  color: #fff;
+  border-bottom: 1px solid #fff;
+  display: inline-block;
+}
+
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.footer-left p,
+.footer-center a,
+.footer-right p {
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.address .working-globally {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.mel-tag {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.75rem;
+}
+
+.footer-center .socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  margin-bottom: 1rem;
+}
+
+.footer-right img {
+  width: 30px;
+  margin-bottom: 1rem;
+}
+.menu-options {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 20;
+  flex-direction: column;
+}
+
+.menu-options a {
+  color: #000;
+  text-decoration: none;
+  margin: 8px 15px;
+  font-size: 18px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.menu-options a:hover {
+  background: #ddd;
+}
+
+
+@media (max-width: 768px) {
+  .footer-bottom {
+    flex-direction: column;
+    gap: 3rem;
+  }
+}
+
+    @media (max-width: 768px) {
+      .uncommon-text {
+        font-size: 70px;
+      }
+      
+      .hero-text {
+        font-size: 36px;
+      }
+      
+      .new-page h2 {
+        font-size: 36px;
+      }
+      
+      .new-page p {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section id="hero" class="hero">
+    <video autoplay loop muted playsinline class="background-video">
+      <source src="uc_video.mp4" type="video/mp4">
+    </video>
+    
+    <div class="hero-text">
+      <span class="line">We specialise in crafting</span>
+      <span class="line">digital experiences that</span>
+      <span class="line">elevate your business</span>
+    </div>
+    
+    <div class="uncommon-text">UNCOMMON</div>
+    
+    <button class="home-button">home</button>
+    <button class="scroll-button">scroll for more</button>
+    <button class="menu-button">menu</button>
+    <div id="menu" class="menu-options">
+        <a href="#work">Work</a>
+        <a href="#studio">Studio</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+      </div>
+  </section>
+
+  <div class="new-page">
+    <div class="new-page-content">
+      <h2>We design for impact.</h2>
+      <h2>See for yourself.</h2>
+    </div>
+  </div>
+  
+  <div class="split-screen">
+
+    <div class="split-half split-top">
+      <div class="video-clip">
+        <video autoplay loop muted playsinline>
+          <source src="uc_video.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+    
+    <div class="split-half split-bottom">
+      <div class="video-clip">
+        <video autoplay loop muted playsinline>
+          <source src="uc_video.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+  <section class="slides">
+    <div class="slide">
+        <img src="https://uncommonstudio.com.au/_next/image?url=https%3A%2F%2Fadmin.uncommonstudio.com.au%2Fuploads%2FHome_1800x1600_69a62b63d2.jpg&w=1920&q=100" alt="Digital Experience Project">
+      </div>
+    </div>
+  
+    <div class="slide">
+        <img src="https://uncommonstudio.com.au/_next/image?url=https%3A%2F%2Fadmin.uncommonstudio.com.au%2Fuploads%2FHome_1800x1600_Mat_Voyce_Uncommon_Studio_Melbourne_54dd737129.jpg&w=640&q=100" alt="Brand Identity Project" alt="Digital Experience Project">
+    </div>
+  
+    <div class="slide">
+        <img src="https://uncommonstudio.com.au/_next/image?url=https%3A%2F%2Fadmin.uncommonstudio.com.au%2Fuploads%2Fhome_work_2_e4781d3ffa.jpg&w=640&q=100" alt="Digital Experience Project">
+    </div>
+  
+    <div class="slide">
+        <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Digital Experience Project">
+    </div>
+    <footer class="footer">
+        <div class="footer-top">
+          <a href="#" class="book-call">↳ Book a 15 min call</a>
+        </div>
+      
+        <div class="footer-bottom">
+          <div class="footer-left">
+            <div class="address">
+              <p>10 GWYNNE ST, CREMORNE VIC 3121</p>
+              <div class="working-globally">
+                <span>WORKING GLOBALLY</span>
+                <span class="mel-tag">MEL</span>
+              </div>
+            </div>
+            <p>©2025 UNCOMMON, ALL RIGHTS RESERVED</p>
+          </div>
+      
+          <div class="footer-center">
+            <div class="socials">
+              <a href="#">LinkedIn</a>
+              <a href="#">Youtube</a>
+              <a href="#">Behance</a>
+              <a href="#">Instagram</a>
+              <a href="#">Awwwards</a>
+            </div>
+            <a href="mailto:hola@uncommonstudio.com.au">hola@uncommonstudio.com.au</a>
+          </div>
+      
+          <div class="footer-right">
+            <img src="https://uncommonstudio.com.au/_next/image?url=%2Fimages%2Fflag.jpg&w=256&q=75" alt="Australian Flag">
+            <p>
+              Uncommon acknowledges the Wurundjeri Woi Wurrung people as the Traditional Owners of the lands on which our office is located.
+            </p>
+            <p>
+              We acknowledge the Traditional Owners of Country on which we meet and work throughout Australia. We recognise that sovereignty over the land has never been ceded, and pay our respects to Elders past and present.
+            </p>
+          </div>
+        </div>
+      </footer>
+      
+      
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    
+      gsap.registerPlugin(ScrollTrigger);
+    
+      const videos = document.querySelectorAll('video');
+      videos.forEach(video => {
+        video.play().catch(e => console.log('Video autoplay prevented'));
+    
+        document.addEventListener('click', () => {
+          video.play();
+        }, { once: true });
+      });
+    
+      initHeroAnimations();
+    
+      initSplitAnimation();
+    
+      setupEventListeners();
+    });
+    
+    function initHeroAnimations() {
+      const lines = document.querySelectorAll('.hero-text .line');
+      gsap.to('.hero-text', { opacity: 1, duration: 0.5 });
+      gsap.to(lines, { 
+        opacity: 1, 
+        y: 0, 
+        stagger: 0.1, 
+        duration: 0.8,
+        ease: "power3.out"
+      });
+      
+      gsap.to('.uncommon-text', { 
+        opacity: 1, 
+        duration: 1.5,
+        delay: 0.5,
+        ease: "power2.out"
+      });
+    }
+    
+    function initSplitAnimation() {
+      const splitTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "body",
+          start: "top top",
+          end: "+=100%",
+          scrub: 0.5,  
+          pin: "#hero",
+          anticipatePin: 1
+        }
+      });
+      splitTl
+        .to('.split-screen', {
+          opacity: 1,
+          duration: 0.2
+        }, 0)
+        
+        .to('#hero', {
+          opacity: 0.5,
+          duration: 0.1
+        }, 0.1)
+        
+        .to('.split-top', {
+          y: '-100%', 
+          duration: 1,
+          ease: "power2.inOut"
+        }, 0.2)
+    
+        .to('.split-bottom', {
+          y: '100%', 
+          duration: 1,
+          ease: "power2.inOut"
+        }, 0.2)
+    
+        .to('#hero', {
+          opacity: 0,
+          duration: 0.1
+        }, 0.8);
+    
+      ScrollTrigger.create({
+        trigger: "body",
+        start: "top top",
+        end: "+=100%",
+        onLeaveBack: () => {
+    
+          gsap.to('#hero', {
+            opacity: 1,
+            duration: 0.3
+          });
+          
+          gsap.to('.split-top', { 
+            y: '0%',
+            duration: 0.5
+          });
+          
+          gsap.to('.split-bottom', { 
+            y: '0%',
+            duration: 0.5
+          });
+
+          gsap.to('.split-screen', {
+            opacity: 0,
+            duration: 0.3,
+            delay: 0.5
+          });
+        }
+      });
+    }
+    
+    function setupEventListeners() {
+      document.querySelector('.scroll-button').addEventListener('click', function() {
+        window.scrollTo({
+          top: window.innerHeight * 0.25,
+          behavior: 'smooth'
+        });
+      });
+      
+      document.querySelector('.view-button').addEventListener('click', function() {
+        alert('View button clicked - navigate to projects');
+      });
+    }
+    gsap.utils.toArray('.slide').forEach((slide, i) => {
+  gsap.fromTo(slide, 
+    { opacity: 0 }, 
+    { 
+      opacity: 1,
+      scrollTrigger: {
+        trigger: slide,
+        start: "top center",
+        end: "bottom center",
+        scrub: true,
+        pin: true,
+      }
+    }
+  )
+})
+document.querySelector('.menu-button').addEventListener('click', toggleMenu);
+
+function toggleMenu(e) {
+  e.preventDefault();
+  const menu = document.getElementById('menu');
+  
+  if (menu.style.display === 'flex') {
+    gsap.to(menu, {
+      opacity: 0,
+      duration: 0.3,
+      onComplete: () => { menu.style.display = 'none'; }
+    });
+  } else {
+    menu.style.display = 'flex';
+    gsap.fromTo(
+      menu, 
+      { opacity: 0, y: -20 }, 
+      { opacity: 1, y: 0, duration: 0.3 }
+    );
+  }
+}
+
+  </script>
+</body>
+</html>
